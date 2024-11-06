@@ -3,8 +3,9 @@ const Todo = require('../models/todoModel');
 
 // Get all todos for the logged-in user
 const getTodo = async (req, res) => {
+  const { id } = req.body;
   try {
-    const todos = await Todo.find({ userId: req.user.id });
+    const todos = await Todo.find({ id });
     res.json(todos);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching todos' });
@@ -21,7 +22,6 @@ const createTodo = async (req, res) => {
       description,
       dueDate,
       priority,
-      userId: req.user.id,
     });
     await todo.save();
     res.status(201).json(todo);
